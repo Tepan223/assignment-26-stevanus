@@ -1,19 +1,26 @@
-let students = [
-  { id: 1, name: "Stevanus", grade: "11 RPL" },
-  { id: 2, name: "Pipin", grade: "11 RPL" },
+import { NextResponse } from "next/server";
+
+export let students = [
+  { id: 1, name: "Lionel Liauw", grade: "12 RPL" },
+  { id: 2, name: "Budi Santoso", grade: "11 TKJ" },
 ];
 
 export async function GET() {
-  return new Response(JSON.stringify(students), { status: 200 });
+  return NextResponse.json(students);
 }
 
 export async function POST(req) {
   const body = await req.json();
 
   const newId = students.length > 0 ? students[students.length - 1].id + 1 : 1;
-  const newStudent = { id: newId, ...body };
+  
+  const newStudent = { 
+    id: newId, 
+    name: body.name, 
+    grade: body.grade 
+  };
 
   students.push(newStudent);
 
-  return new Response(JSON.stringify(newStudent), { status: 201 });
+  return NextResponse.json(newStudent, { status: 201 });
 }
